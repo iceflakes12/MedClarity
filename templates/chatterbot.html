@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthBot Hero</title>
+    <link rel="stylesheet" href="../static/CSS/stylesCB.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="chatbot-container">
+        <div id="header">
+            <h1>HealthBot Hero</h1>
+            <button id="backToHome" onclick="backToLogin()">Back to Home</button>
+        </div>
+        <div id="chatbot">
+            <div id="conversation">
+              <div class="chatbot message">
+                <p class="chatbot-text">Hi! 👋 It's great to see you! Ask me about symptoms, medications, or general health advice!</p>
+              </div>
+            </div>
+            <form id="input-form" method = "POST">
+              <message-container id="input-container">
+                <input id="input-field" type="text" placeholder="Type your message here" name="input-field" autocomplete="off">
+                <button id="submit-button" type="submit">Send</button>
+              </message-container>
+            </form>
+        </div>  
+
+    </div>
+
+    <script>
+      document.getElementById("input-form").addEventListener("submit", function(ev){
+            ev.preventDefault();
+            var input = document.forms["input-form"].elements["input-field"].value;
+
+            input = input.trim();
+            if (input !== ""){
+              document.forms["input-form"].elements["input-field"].value = "";
+
+                var userMessageContainer = document.createElement("div");
+                userMessageContainer.className = "user message";
+                var userMessage = document.createElement("p");
+                userMessage.className = "chatbot-text user-text";
+                userMessage.innerHTML = input;
+
+                userMessageContainer.appendChild(userMessage)
+                document.getElementById("conversation").appendChild(userMessageContainer);
+
+                $.ajax({
+                    type: "POST",
+                    url: "/chatterbot",
+                    data: JSON.stringify(input),
+                    contentType: "application/json",
+                    dataType: 'json',
+                    success: function(results){
+                      var chatbotMessageContainer = document.createElement("div");
+                      chatbotMessageContainer.className = "chatbot message";
+                      var chatbotMessage = document.createElement("p");
+                      chatbotMessage.className = "chatbot-text";
+                      chatbotMessage.innerHTML = results["result"];
+
+                      chatbotMessageContainer.appendChild(chatbotMessage);
+                      document.getElementById("conversation").appendChild(chatbotMessageContainer);
+                      document.getElementById("conversation").scrollTop = document.getElementById("conversation").scrollHeight;
+                    }
+                });
+              }
+            }, false);
+
+      function backToLogin(){
+        window.location.replace("{{url_for('homepage')}}");
+      }
+    </script>
+</body>
+</html>
+</html>

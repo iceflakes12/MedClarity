@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/CSS/stylesHP.css">
+    <title>MedClarity - Homepage</title>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="logo">
+            <img src="../static/Images/HealthLogoPhoto.png" alt="Health Hack Logo" width="50" height="50">
+            <h1 id="Title">MedClarity</h1>
+        </div>
+        <div class="settings" id="settings">
+            <div class="dropdown">
+                <div class="bars-icon" onclick="toggleDropdown()">&#9776;</div>
+                <div class="dropdown-content">
+                    <a href="{{url_for('change_password')}}">Change Password</a>
+                    <a href="{{url_for('logout')}}">Sign Out</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="grid-item"><a href="{{url_for('chatterbot')}}">HealthBot Hero</a></div>
+        <div class="grid-item"><a href="{{url_for('diagnosis')}}">Health Insights</a></div>
+        <div class="grid-item"><a href="{{url_for('report')}}">Report Analyser</a></div>
+    </div>
+</div>
+
+<script>
+    function toggleDropdown() {
+        var dropdown = document.getElementById("settings").querySelector(".dropdown-content");
+        dropdown.classList.toggle("show");
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function(event) {
+        if (!event.target.matches('.bars-icon')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+</script>
+
+</body>
+</html>

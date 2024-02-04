@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Health Insights</title>
+    <style>
+        #flex_1 {
+            display: flex;
+            flex-direction: column;
+            border-radius: 5%;
+            width: 100vw;
+            height: 100vh;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 40px;
+        }
+
+        #searchInput {
+            padding: 0.5em;
+            font-size: 24px;
+            width: 50vw;
+        }
+
+        #flex_2 {
+            display: flex;
+        }
+
+        #submitbutton {
+            margin-left: 10px;
+            border-radius: 10%;
+            background-color: lightgreen;
+            font-weight: bold;
+            border: none;
+            font-size: 24px;
+        }
+
+        body {
+            background-image: url(../static/Images/FinalBG.png);
+            position: relative;
+            margin: 0;
+            padding: 0;
+        }
+
+        #title-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            min-width: 300px;
+        }
+
+        #backToHomeContainer {
+            position: fixed; /* Set to fixed position */
+            bottom: 10px;
+            right: 10px;
+            z-index: 1;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 5px;
+            padding: 5px;
+            min-width: 100px;
+        }
+
+        #backToHome {
+            background-color: transparent;
+            color: #000000;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            padding: 5px 10px;
+        }
+
+        #backToHome:hover {
+            background-color: #dddddd;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div id="flex_1">
+        <div id="title-container">
+            <h1>Medical Diagnosis</h1>
+            <div id="flex_2">
+                <form id="diagnosis_form" method="POST" name="diagnosis_form">
+                    <select nname="searchInput" id="searchInput">
+                        {% for disease in diseases %}
+                            <option>{{ disease[0] }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="submit" id="submitbutton">
+                </form>
+            </div>
+        </div>
+        <!-- Back to Home button -->
+        <div id="backToHomeContainer">
+            <button id="backToHome" onclick="backToLogin()">Back to Home</button>
+        </div>
+    </div>
+    <script>
+        document.getElementById("diagnosis_form").addEventListener("submit", function(ev){
+            ev.preventDefault();
+            var username = document.forms['diagnosis_form'].elements['searchInput'].value;
+            window.location.href = "/diagnosis/" + username
+        }, false);
+
+        function backToLogin(){
+            window.location.replace("{{url_for('homepage')}}");
+        }
+    </script>
+</body>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang = "en">
+    <head>
+        <meta charset = "UTF-8">
+        <title>Report Analyser</title>
+        <style>
+            body{
+                background-image:url(../static/Images/FinalBG.png)
+            }
+            .flex_container_centered{
+                background-color: rgba(255, 255, 255, 0.8); /* Adjust the alpha value for transparency if needed */
+                padding: 10px;
+                border-radius: 10px;
+                margin-bottom: 20px; 
+            }
+            #backToHomeContainer {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            z-index: 1;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 5px;
+            padding: 5px;
+            min-width: 100px;
+            }
+
+            #backToHome {
+            background-color: transparent;
+            color: #000000;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            padding: 5px 10px;
+            }
+
+            #backToHome:hover {
+            background-color: #dddddd;
+            }
+        </style>
+        <link href = "../static/CSS/imagery_style.css" rel = "stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <div id="backToHomeContainer">
+            <button id="backToHome" onclick="backToLogin()">Back to Home</button>
+        </div>
+        <div class="flex_container_centered">
+            <h1>Scan an image of your medical report!</h1>
+            <div class = "video-backing" id="video-backing">
+                <canvas id = "drawing" class = "image_canvas"></canvas>
+                <video id="video" class = "video_canvas" autoplay></video>
+                <photo id = "photo" class = "photo_canvas" alt = "photobox"></photo>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 10px;" id = "button-grids">
+                <button id="capture" class = "round_button record" style = "grid-area:1/1/2/2"></button>
+                <text style = "grid-area:2/1/-1/2">Press the Red Button to Capture the Image</text>
+                <button id="retake" class = "round_button retake" style = "grid-area:1/2/2/3"></button>
+                <text style = "grid-area:2/2/-1/3">Press the Yellow Button to Retake the Image</text>
+                <button id="analyse" class = "round_button analyse" style = "grid-area:1/3/2/-1"></button>
+                <text style = "grid-area:2/3/-1/-1">Press the Green Button to Analyse the Image</text>
+            </div>
+            <h2>Output here</h2>
+            <div style = "border:solid; min-width: 200px; padding: 10px;">
+                <p id = "output"></p>
+            </div>
+        </div>
+        <script>
+            var startbutton = document.getElementById('capture');
+            var retakebutton = document.getElementById('retake');
+            var analysebutton = document.getElementById('analyse');
+            var photo = document.getElementById('photo');
+            var canvas = document.getElementById('drawing');
+            var video = document.getElementById('video');
+            var streaming = false;
+            var photo_data = null;
+            var video_backing = document.getElementById('video-backing');
+            var button_grids = document.getElementById('button-grids');
+
+            function setCanvasSize() {
+                video_backing.style.width = `${video.videoWidth}px`;
+                video_backing.style.height = `${video.videoHeight}px`;
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+            }
+
+            function takepicture(stream) {
+                if(streaming){
+                    const context = canvas.getContext("2d");
+                    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    photo_data = canvas.toDataURL("image/png");
+                    photo.setAttribute("src", photo_data);
+                    stream.getTracks().forEach((track) => {
+                        if (track.readyState == 'live') {
+                            track.stop();
+                        }
+                    });
+                    video.setAttribute("style", "display: none;")
+                    streaming = false;
+                }
+            }
+            
+            function start_livestream(){
+                navigator.mediaDevices.getUserMedia({ video: {facingMode: 'environment'} }).then(function(stream) {
+                    video.srcObject = stream;
+                    video.addEventListener('loadedmetadata', function () {
+                        video.play();
+                        setCanvasSize();
+                        streaming = true;
+                    });
+                }).catch(function(err){
+                    alert(`An error occurred with getting user camera: ${err}`);
+                    videoBacking.style.display = 'none';
+                    button_grids.style.display = 'none';
+                });
+            }
+
+            start_livestream();
+            startbutton.addEventListener("click",function(ev) {
+                takepicture(video.srcObject);
+                ev.preventDefault();
+            }, false);
+
+            retakebutton.addEventListener("click",function(ev) {
+                if(!streaming){
+                    photo.removeAttribute("src");
+                    const context = canvas.getContext('2d');
+                    context.clearRect(0, 0, canvas.width, canvas.height);
+                    start_livestream();
+                    video.setAttribute("style", "display: block;")
+                    ev.preventDefault();
+                }
+            }, false);
+
+            analysebutton.addEventListener("click", function(ev){
+                if(!streaming){
+                    photo_data = photo_data.replace('data:image/png;base64,', '');
+                    $.ajax({
+                    type: "POST",
+                    url: "/process report",
+                    data: JSON.stringify(photo_data),
+                    contentType: "application/json",
+                    dataType: 'json',
+                    success: function(results){
+                        document.getElementById('output').innerHTML = results['result'];
+                    }
+                    });
+                }
+            })
+
+            function backToLogin(){
+                window.location.replace("{{url_for('homepage')}}");
+            }
+        </script>
+    </body>
+</html>
+

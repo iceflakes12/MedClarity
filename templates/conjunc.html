@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conjunctivitis Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background: transparent;
+            color: #333;
+        }
+
+        header {
+            text-align: center;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            position: relative;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 1.5em;
+            margin: 0;
+        }
+
+        #backToSearchBtn {
+            padding: 8px 12px;
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        section {
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        h2 {
+            color: #4CAF50;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        body {
+            background-image: url(../static/Images/FinalBG.png);
+        }
+
+        @media screen and (max-width: 600px) {
+            h1 {
+                font-size: 1.2em;
+            }
+
+            #backToSearchBtn {
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <h1>Conjunctivitis Information</h1>
+            <button id="backToSearchBtn" onclick="backToSearch()">Back To Search</button>
+        </div>
+    </header>
+
+    <section>
+        <h2>What is Conjunctivitis?</h2>
+        <p>Conjunctivitis, commonly known as pink eye, is an inflammation of the conjunctiva, the clear membrane covering the white part of the eye and lining the inner surface of the eyelids.</p>
+    </section>
+
+    <section>
+        <h2>Symptoms</h2>
+        <ul>
+            <li>Redness in the white of the eye or inner eyelid</li>
+            <li>Watery or mucous discharge</li>
+            <li>Itchy or burning sensation</li>
+            <li>Sensitivity to light</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Causes</h2>
+        <ul>
+            <li>Viral infections (e.g. adenovirus)</li>
+            <li>Bacterial infections</li>
+            <li>Allergic reactions</li>
+            <li>Irritants like smoke or chemicals</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>What You Can Do</h2>
+        <ul>
+            <li>Practice good hand hygiene</li>
+            <li>Avoid touching or rubbing eyes</li>
+            <li>Use prescribed eye drops or ointments</li>
+            <li>Apply warm compresses for relief</li>
+        </ul>
+    </section>
+
+    <script>
+        function backToSearch() {
+            window.location.href = "{{url_for('diagnosis')}}";
+        }
+    </script>
+
+</body>
+</html>

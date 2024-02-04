@@ -1,0 +1,148 @@
+body {
+    font-family: Arial, sans-serif;
+    background-size: cover;
+    margin: 0;
+    color: #fff;
+    background-image: url(../Images/FinalBG.png);
+}
+
+.container {
+    text-align: center;
+    max-width: 100%;
+    margin: 0;
+    padding: 20px; /* Add padding for better spacing */
+    box-sizing: border-box; /* Include padding in the width */
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+.settings {
+    display: flex;
+    align-items: center;
+}
+
+.settings a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #333;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    margin-top: 40px;
+}
+
+.grid-item {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid #ccc;
+    padding: 40px;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.grid-item:hover {
+    background-color: #f0f0f0;
+}
+
+#Title {
+    color: black;
+}
+
+#copy {
+    color: black;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.bars-icon {
+    cursor: pointer;
+    color: black;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #ffffff;
+    min-width: 150px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    right: 1px;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 10px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #23bbe9;
+}
+.show {
+    display: block;
+}
+
+/* Media Queries for Responsive Design */
+
+@media only screen and (max-width: 768px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .grid-item {
+        padding: 20px;
+    }
+
+    .settings a {
+        margin-left: 10px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .logo img {
+        margin-bottom: 10px;
+    }
+
+    .settings {
+        margin-top: 10px;
+    }
+
+    .header {
+        flex-direction: column;
+    }
+    
+    .settings {
+        align-self: flex-end;
+    }
+}
+

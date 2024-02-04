@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pneumonia Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background: transparent;
+            color: #333;
+        }
+
+        header {
+            text-align: center;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        section {
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        h2 {
+            color: #4CAF50;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        body {
+            background-image: url(../static/Images/FinalBG.png);
+        }
+
+        @media screen and (max-width: 600px) {
+            h1 {
+                font-size: 1.2em;
+            }
+
+            #backToSearchBtn {
+                margin-top: 10px;
+            }
+        }
+
+        #backToSearchBtn {
+            padding: 8px 12px;
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <h1>Pneumonia Information</h1>
+            <button id="backToSearchBtn" onclick="backToSearch()">Back To Search</button>
+        </div>
+    </header>
+
+    <section>
+        <h2>What is Pneumonia?</h2>
+        <p>Pneumonia is an inflammatory condition affecting the air sacs in the lungs, often caused by infection with bacteria, viruses, or other microorganisms.</p>
+    </section>
+
+    <section>
+        <h2>Symptoms</h2>
+        <ul>
+            <li>Cough with phlegm</li>
+            <li>Fever and chills</li>
+            <li>Shortness of breath</li>
+            <li>Chest pain when breathing or coughing</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Causes</h2>
+        <ul>
+            <li>Bacterial infections (e.g., Streptococcus pneumoniae)</li>
+            <li>Viral infections (e.g., Influenza, Respiratory Syncytial Virus)</li>
+            <li>Fungal infections</li>
+            <li>Aspiration (inhaling food, liquids, or vomit into the lungs)</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>What You Can Do</h2>
+        <ul>
+            <li>Antibiotics for bacterial pneumonia</li>
+            <li>Antiviral medications for viral pneumonia</li>
+            <li>Supportive care (rest, fluids, pain relievers)</li>
+            <li>Hospitalization in severe cases</li>
+        </ul>
+    </section>
+
+    <script>
+        function backToSearch() {
+            window.location.href = "{{url_for('diagnosis')}}";
+        }
+    </script>
+
+</body>
+</html>

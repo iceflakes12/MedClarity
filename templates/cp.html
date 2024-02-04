@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="../static/CSS/stylescp.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+
+<div class="mainDiv">
+    <div class="cardStyle">
+        <form action="" method="POST" name="changePasswordForm" id="changePasswordForm">
+
+            <img src="../static/Images/HealthLogoPhoto.png" id="signupLogo" alt="Signup Logo">
+
+            <h2 class="formTitle">
+                Change Your Password
+            </h2>
+
+            <div class="inputDiv">
+                <label class="inputLabel" for="password">Old Password</label>
+                <input autocomplete="off" type="password" id="old_password" name="old_password" required>
+            </div>
+
+            <div class="inputDiv">
+                <label class="inputLabel" for="password">New Password</label>
+                <input autocomplete="off" type="password" id="password" name="password" required>
+            </div>
+
+            <div class="inputDiv">
+                <label class="inputLabel" for="confirmPassword">Confirm Password</label>
+                <input autocomplete="off" type="password" id="confirmPassword" name="confirmPassword">
+            </div>
+
+            <p id="change_password_log"></p>
+
+            <div class="buttonWrapper">
+                <button type="submit" id="submitButton" class="submitButton pure-button pure-button-primary">
+                    <span>Change</span>
+                </button>
+            </div>
+        </form>
+
+        <div id="backToHomeContainer">
+            <button id="backToHome" onclick="backToLogin()">Back to Home</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("changePasswordForm").addEventListener("submit", function(ev){
+            ev.preventDefault();
+            var old_password = document.forms['changePasswordForm'].elements["old_password"].value;
+            var password = document.forms['changePasswordForm'].elements["password"].value;
+            var confirm_password = document.forms['changePasswordForm'].elements["confirmPassword"].value;
+            var data = {"old_password": old_password,
+                "password": password,
+                "confirm_password": confirm_password
+            };
+            $.ajax({
+                type: "POST",
+                url: "{{url_for('change_password')}}",
+                data: JSON.stringify(data),
+                contentType: "application/json",
+                dataType: 'json',
+                success: function(results){
+                    document.getElementById("change_password_log").innerHTML = results['result'];
+                    if(results['result'] === 'Incorrect old password!' || results['result'] === "Password and confirm password do not match!"){
+                        document.getElementById("change_password_log").setAttribute("style", "color: red;");
+                    }
+                    if(results['result'] == 'Successful password change'){
+                        document.getElementById("change_password_log").setAttribute("style", "color: green;");
+                    }
+                }
+            });
+         }, false);
+    
+    function backToLogin(){
+        window.location.replace("{{url_for('homepage')}}");
+    }
+</script>
+
+</body>
+</html>
